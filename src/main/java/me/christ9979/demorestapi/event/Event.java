@@ -2,6 +2,7 @@ package me.christ9979.demorestapi.event;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Builder
@@ -14,11 +15,18 @@ import java.time.LocalDateTime;
  * 같은 이유로 @Data란 어노테이션을 쓰지말 것.
  */
 @EqualsAndHashCode(of = "id")
+@Entity
 public class Event {
 
+    @Id @GeneratedValue
     private Integer id;
     private String name;
     private String description;
+
+    /**
+     * Spring Boot 2.1부터 JPA 3.2를 지원하므로
+     * LocalDateTime도 매핑이 기본적으로 된다.
+     */
     private LocalDateTime beginEnrollmentDateTime;
     private LocalDateTime closeEnrollmentDateTime;
     private LocalDateTime beginEventDateTime;
@@ -29,6 +37,8 @@ public class Event {
     private int limitOfEnrollment;
     private boolean offline;
     private boolean free;
+
+    @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
 
     public void main() {
