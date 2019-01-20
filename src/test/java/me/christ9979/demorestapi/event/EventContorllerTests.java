@@ -39,7 +39,7 @@ public class EventContorllerTests {
     @Test
     public void createEvent() throws Exception {
 
-        EventDto event = EventDto.builder()
+        EventDto eventDto = EventDto.builder()
                 .name("Spring")
                 .description("REST API Development")
                 .beginEnrollmentDateTime(LocalDateTime.of(2019, 01, 17, 8, 43, 22))
@@ -55,7 +55,7 @@ public class EventContorllerTests {
         mockMvc.perform(post("/api/events/")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .accept(MediaTypes.HAL_JSON)
-                    .content(objectMapper.writeValueAsString(event)))
+                    .content(objectMapper.writeValueAsString(eventDto)))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
@@ -102,6 +102,29 @@ public class EventContorllerTests {
         mockMvc.perform(post("/api/events")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(objectMapper.writeValueAsString(eventDto)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createEvent_BadRequest_WrongInput() throws Exception {
+        EventDto eventDto = EventDto.builder()
+                .name("Spring")
+                .description("REST API Development")
+                .beginEnrollmentDateTime(LocalDateTime.of(2019, 01, 26, 8, 43, 22))
+                .closeEnrollmentDateTime(LocalDateTime.of(2019, 01, 25, 8, 43, 22))
+                .beginEventDateTime(LocalDateTime.of(2019, 01, 24, 8, 43, 22))
+                .endEventDateTime(LocalDateTime.of(2019, 01, 23, 8, 43, 22))
+                .basePrice(10000)
+                .maxPrice(200)
+                .limitOfEnrollment(100)
+                .location("구디역")
+                .build();
+
+        mockMvc.perform(post("/api/events")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(objectMapper.writeValueAsString(eventDto)))
+                .andDo(print())
                 .andExpect(status().isBadRequest());
     }
 }
