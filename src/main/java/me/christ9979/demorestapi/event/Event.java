@@ -44,4 +44,20 @@ public class Event {
     public void main() {
 
     }
+
+    public void update() {
+        // Update free
+        if (basePrice == 0 && maxPrice == 0) {
+            free = true;
+        } else {
+            free = false;
+        }
+
+        // Update offline
+        if (location == null || location.isBlank()) {
+            offline = false;
+        } else {
+            offline = true;
+        }
+    }
 }
