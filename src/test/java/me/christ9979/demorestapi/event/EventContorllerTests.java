@@ -91,7 +91,8 @@ public class EventContorllerTests {
                             links(
                                     linkWithRel("self").description("link to self"),
                                     linkWithRel("query-events").description("link to update an existing"),
-                                    linkWithRel("update-event").description("link to update an exisiting")
+                                    linkWithRel("update-event").description("link to update an exisiting"),
+                                    linkWithRel("profile").description("link to profile")
                             ),
                             /**
                              * 요청 헤더 스니펫 생성
@@ -147,7 +148,8 @@ public class EventContorllerTests {
                                     fieldWithPath("eventStatus").description("event status"),
                                     fieldWithPath("_links.self.href").description("link to self"),
                                     fieldWithPath("_links.query-events.href").description("link to update an existing"),
-                                    fieldWithPath("_links.update-event.href").description("link to update an exisiting")
+                                    fieldWithPath("_links.update-event.href").description("link to update an exisiting"),
+                                    fieldWithPath("_links.profile.href").description("link to profile")
                             )
                 ));
 
