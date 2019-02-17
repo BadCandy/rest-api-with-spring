@@ -1,6 +1,7 @@
 package me.christ9979.demorestapi.event;
 
 import lombok.*;
+import me.christ9979.demorestapi.accounts.Account;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -41,6 +42,8 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus = EventStatus.DRAFT;
 
+    @ManyToOne
+    private Account manager;
     public void main() {
 
     }
