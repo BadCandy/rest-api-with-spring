@@ -79,14 +79,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * Ex) /admin/으로 시작하는 URL을
      * ADMIN 역할이있는 사용자로 제한하고 다른 URL을 성공적으로 인증해야한다고 선언한다.
      */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.anonymous()
-                .and()
-            .formLogin()
-                .and()
-            .authorizeRequests()
-                .mvcMatchers(HttpMethod.GET, "/api/**").authenticated()
-                .anyRequest().authenticated();
-    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.anonymous()
+//                .and()
+//            .formLogin()
+//                .and()
+//            .authorizeRequests()
+//                .mvcMatchers(HttpMethod.GET, "/api/**").authenticated()
+//                .anyRequest().authenticated();
+//    }
 }

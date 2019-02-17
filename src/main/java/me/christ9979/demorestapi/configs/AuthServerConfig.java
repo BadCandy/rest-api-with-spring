@@ -1,6 +1,7 @@
 package me.christ9979.demorestapi.configs;
 
 import me.christ9979.demorestapi.accounts.AccountService;
+import me.christ9979.demorestapi.common.AppProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +16,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @Configuration
 /**
  * @EnableAuthorizationServer, AuthorizationServerConfigurerAdapter 상속으로
- * OAuth 인증 서버 설정을 한다.
+ * OAuth2 인증 서버 설정을 한다.
+ * Resource Server와 달리 원래는 따로 프로젝트를 분리하는게 좋다.
  */
 @EnableAuthorizationServer
 public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -31,6 +33,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     TokenStore tokenStore;
+
+    @Autowired
+    AppProperties appProperties;
 
     /**
      * 인증 서버 시큐리티 설정을 설정한다.
@@ -53,10 +58,16 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
          * jdbc로도 설정 가능
          */
         clients.inMemory()
-                .withClient("myApp")
+                .withClient(appProperties.getClientId())
+                /**
+                 * password scope을 지정한다.
+                 * password scope은 username, password를 직접 입력하여 토큰을
+                 * 발급 받기 때문에, 사용자 정보를 가지고 있는 구글, 애플, 페이스북 등
+                 * 자체 인증 서비스를 제공하는 경우에만 사용해야 한다.
+                 */
                 .authorizedGrantTypes("password", "refresh_token")
                 .scopes("read", "write")
-                .secret(this.passwordEncoder.encode("pass"))
+                .secret(this.passwordEncoder.encode(appProperties.getClientSecret()))
                 .accessTokenValiditySeconds(10 * 60)
                 .refreshTokenValiditySeconds(6 * 10 * 60);
     }
