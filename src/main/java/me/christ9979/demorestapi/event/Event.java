@@ -1,7 +1,9 @@
 package me.christ9979.demorestapi.event;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import me.christ9979.demorestapi.accounts.Account;
+import me.christ9979.demorestapi.accounts.AccountSerializer;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -43,6 +45,12 @@ public class Event {
     private EventStatus eventStatus = EventStatus.DRAFT;
 
     @ManyToOne
+    /**
+     * manager를 serialize할때는 모든 Account 정보가 필요하지 않고
+     * 노출시 보안 문제 때문에
+     * 커스텀하게 구현한 Serializer를 이용하여 serialize한다.
+     */
+    @JsonSerialize(using = AccountSerializer.class)
     private Account manager;
     public void main() {
 
